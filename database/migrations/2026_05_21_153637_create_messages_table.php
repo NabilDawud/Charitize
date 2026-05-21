@@ -11,14 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('causes', function (Blueprint $table) {
+        Schema::create('messages', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->text('content');
-            $table->string('link')->nullable();
-            $table->decimal('goal', 10, 2);
-            $table->enum('status', ['open', 'close'])->default('open');
-            $table->foreignId('category_id')->constrained()->restrictOnDelete();
+            $table->string('name');
+            $table->string('email');
+            $table->string('subject');
+            $table->text('message');
             $table->timestamps();
         });
     }
@@ -28,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('causes');
+        Schema::dropIfExists('messages');
     }
 };

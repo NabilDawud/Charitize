@@ -13,4 +13,9 @@ class Cause extends Model
     {
         return $this->belongsTo(Category::class)->withDefault();
     }
+
+    public function donations()
+    {
+        return $this->hasMany(Payment::class);
+    }
 }
