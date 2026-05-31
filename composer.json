@@ -14,7 +14,9 @@
         "laravel/tinker": "^3.0"
     },
     "require-dev": {
+        "beyondcode/laravel-query-detector": "^2.3",
         "fakerphp/faker": "^1.23",
+        "fruitcake/laravel-debugbar": "^4.2",
         "laravel/boost": "^2.2",
         "laravel/breeze": "*",
         "laravel/pail": "^1.2.5",
