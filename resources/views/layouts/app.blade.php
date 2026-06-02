@@ -13,6 +13,15 @@
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+        @if(app()->getLocale() === 'ar')
+            <style>
+                body {
+                    direction: rtl;
+                    text-align: right;
+                }
+            </style>
+        @endif
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100">
