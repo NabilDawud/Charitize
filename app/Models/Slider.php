@@ -20,4 +20,8 @@ class Slider extends Model
     {
         return $this->morphOne(Image::class, 'imageable');
     }
+    public function getTitleTransAttribute()
+    {
+        return $this->title[app()->getLocale()] ?? null;
+    }
 }

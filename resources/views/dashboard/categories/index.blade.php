@@ -2,11 +2,11 @@
     <x-slot name="header">
         <div class="flex items-center justify-between">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                {{ __('admin.sliders') }}
+                {{ __('admin.categories') }}
             </h2>
-            <a href="{{ route('dashboard.sliders.create') }}"
+            <a href="{{ route('dashboard.categories.create') }}"
                 class="inline-flex items-center px-6 py-2 bg-green-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-500 focus:outline-none focus:border-green-700 focus:ring focus:ring-green-200 active:bg-green-600 disabled:opacity-25 transition">
-                {{ __('admin.add_slider') }}
+                {{ __('admin.add_category') }}
             </a>
         </div>
 
@@ -26,9 +26,6 @@
                                         <th scope="col" class="px-6 py-4 text-center w-20">
                                             {{ __('admin.id') }}
                                         </th>
-                                        <th scope="col" class="px-6 py-4 text-center w-32">
-                                            {{ __('admin.image') }}
-                                        </th>
                                         <th scope="col" class="px-6 py-4 text-center">
                                             {{ __('admin.title') }}
                                         </th>
@@ -45,50 +42,33 @@
                                 </thead>
 
                                 <tbody class="divide-y divide-gray-100 bg-white">
-                                    @forelse ($sliders as $slider)
+                                    @forelse ($categories as $category)
                                         <tr class="hover:bg-gray-50/70 transition-colors duration-200">
                                             <td
                                                 class="px-6 py-4 whitespace-nowrap text-center font-medium text-gray-400 text-xs">
-                                                {{ '#' }} {{ $slider->id }}
+                                                {{ '#' }} {{ $category->id }}
                                             </td>
-
-                                            <td class="px-6 py-4 whitespace-nowrap text-center">
-                                                <div class="flex justify-center">
-                                                    @if ($slider->image)
-                                                        <img src="{{ asset($slider->image->path) }}"
-                                                            alt="{{ __('admin.slider_image') }}"
-                                                            class="h-20 w-20 object-cover rounded-lg ring-1 ring-gray-200 shadow-xs">
-                                                    @else
-                                                        <span
-                                                            class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium bg-gray-100 text-gray-500">
-                                                            {{ __('admin.no_image') }}
-                                                        </span>
-                                                    @endif
-                                                </div>
-                                            </td>
-
                                             <td
                                                 class="px-6 py-4 whitespace-nowrap text-center font-medium text-gray-900">
-                                                {{ $slider->title_trans ?? '-' }}
+                                                {{ $category->title_trans ?? '-' }}
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-center text-xs text-gray-500">
+                                                {{-- {{ $category->created_at ? (app()->getLocale() === 'en' ? $category->created_at->format('d-m-Y') : $category->created_at->format('Y-m-d')) : '-' }} --}}
+                                                {{ $category->created_at ? $category->created_at->format('Y-m-d') : '-' }}
                                             </td>
 
                                             <td class="px-6 py-4 whitespace-nowrap text-center text-xs text-gray-500">
-                                                {{-- {{ $slider->created_at ? (app()->getLocale() === 'en' ? $slider->created_at->format('d-m-Y') : $slider->created_at->format('Y-m-d')) : '-' }} --}}
-                                                {{ $slider->created_at ? $slider->created_at->format('Y-m-d') : '-' }}
-                                            </td>
-
-                                            <td class="px-6 py-4 whitespace-nowrap text-center text-xs text-gray-500">
-                                                {{ $slider->updated_at ? $slider->updated_at->diffForHumans() : '-' }}
+                                                {{ $category->updated_at ? $category->updated_at->diffForHumans() : '-' }}
                                             </td>
 
                                             <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
                                                 <div class="flex items-center justify-center gap-x-1.5">
-                                                    <a href="{{ route('dashboard.sliders.edit', $slider) }}"
+                                                    <a href="{{ route('dashboard.categories.edit', $category) }}"
                                                         class="inline-flex items-center px-3 py-1.5 bg-blue-50 text-blue-600 hover:bg-blue-100 rounded-md transition-colors duration-150 text-xs font-semibold">
                                                         {{ __('admin.edit') }}
                                                     </a>
 
-                                                    <form action="{{ route('dashboard.sliders.destroy', $slider) }}"
+                                                    <form action="{{ route('dashboard.categories.destroy', $category) }}"
                                                         method="POST" class="inline delete-form">
                                                         @csrf
                                                         @method('DELETE')
@@ -110,7 +90,7 @@
                                                         <path stroke-linecap="round" stroke-linejoin="round"
                                                             stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path>
                                                     </svg>
-                                                    <span>{{ __('admin.no_sliders_found') }}</span>
+                                                    <span>{{ __('admin.no_categories_found') }}</span>
                                                 </div>
                                             </td>
                                         </tr>

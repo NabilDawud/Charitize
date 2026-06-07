@@ -9,7 +9,18 @@ class Cause extends Model
     //
     protected $guarded = [];
 
-    public function Category()
+    protected $with = ['image', 'category'];
+    protected $casts = [
+        'title' => 'array',
+        'content' => 'array',
+    ];
+
+    public function getTitleTransAttribute()
+    {
+        return $this->title[app()->getLocale()] ?? null;
+    }
+
+    public function category()
     {
         return $this->belongsTo(Category::class)->withDefault();
     }
@@ -17,5 +28,10 @@ class Cause extends Model
     public function donations()
     {
         return $this->hasMany(Payment::class);
+    }
+
+    public function image()
+    {
+        return $this->morphOne(Image::class, 'imageable');
     }
 }

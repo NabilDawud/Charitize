@@ -2,11 +2,11 @@
     <x-slot name="header">
         <div class="flex items-center justify-between">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                {{ __('admin.sliders') }}
+                {{ __('admin.cases') }}
             </h2>
-            <a href="{{ route('dashboard.sliders.create') }}"
+            <a href="{{ route('dashboard.cases.create') }}"
                 class="inline-flex items-center px-6 py-2 bg-green-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-500 focus:outline-none focus:border-green-700 focus:ring focus:ring-green-200 active:bg-green-600 disabled:opacity-25 transition">
-                {{ __('admin.add_slider') }}
+                {{ __('admin.add_case') }}
             </a>
         </div>
 
@@ -33,6 +33,15 @@
                                             {{ __('admin.title') }}
                                         </th>
                                         <th scope="col" class="px-6 py-4 text-center">
+                                            {{ __('admin.goal') }}
+                                        </th>
+                                        <th scope="col" class="px-6 py-4 text-center">
+                                            {{ __('admin.status') }}
+                                        </th>
+                                        <th scope="col" class="px-6 py-4 text-center">
+                                            {{ __('admin.category') }}
+                                        </th>
+                                        <th scope="col" class="px-6 py-4 text-center">
                                             {{ __('admin.created_at') }}
                                         </th>
                                         <th scope="col" class="px-6 py-4 text-center">
@@ -45,18 +54,18 @@
                                 </thead>
 
                                 <tbody class="divide-y divide-gray-100 bg-white">
-                                    @forelse ($sliders as $slider)
+                                    @forelse ($cases as $case)
                                         <tr class="hover:bg-gray-50/70 transition-colors duration-200">
                                             <td
                                                 class="px-6 py-4 whitespace-nowrap text-center font-medium text-gray-400 text-xs">
-                                                {{ '#' }} {{ $slider->id }}
+                                                {{ '#' }} {{ $case->id }}
                                             </td>
 
                                             <td class="px-6 py-4 whitespace-nowrap text-center">
                                                 <div class="flex justify-center">
-                                                    @if ($slider->image)
-                                                        <img src="{{ asset($slider->image->path) }}"
-                                                            alt="{{ __('admin.slider_image') }}"
+                                                    @if ($case->image)
+                                                        <img src="{{ asset($case->image->path) }}"
+                                                            alt="{{ __('admin.case_image') }}"
                                                             class="h-20 w-20 object-cover rounded-lg ring-1 ring-gray-200 shadow-xs">
                                                     @else
                                                         <span
@@ -69,26 +78,48 @@
 
                                             <td
                                                 class="px-6 py-4 whitespace-nowrap text-center font-medium text-gray-900">
-                                                {{ $slider->title_trans ?? '-' }}
+                                                {{ $case->title_trans ?? '-' }}
+                                            </td>
+                                            <td
+                                                class="px-6 py-4 whitespace-nowrap text-center font-medium text-gray-900">
+                                                {{ $case->goal ?? '-' }}$
+                                            </td>
+                                            <td
+                                                class="px-6 py-4 whitespace-nowrap text-center font-medium text-gray-900">
+                                                @if ($case->status === 'open')
+                                                    <span
+                                                        class="inline-flex items-center px-3 py-1.5 bg-green-100 text-green-600  rounded-md transition-colors duration-150 text-xs font-semibold">
+                                                        {{ __('admin.open') }}
+                                                    </span>
+                                                @else
+                                                    <span
+                                                        class="inline-flex items-center px-3 py-1.5 bg-red-100 text-red-600 rounded-md transition-colors duration-150 text-xs font-semibold">
+                                                        {{ __('admin.close') }}
+                                                    </span>
+                                                @endif
+                                            </td>
+                                            <td
+                                                class="px-6 py-4 whitespace-nowrap text-center font-medium text-gray-900">
+                                                {{ $case->category->title_trans ?? '-' }}
                                             </td>
 
                                             <td class="px-6 py-4 whitespace-nowrap text-center text-xs text-gray-500">
-                                                {{-- {{ $slider->created_at ? (app()->getLocale() === 'en' ? $slider->created_at->format('d-m-Y') : $slider->created_at->format('Y-m-d')) : '-' }} --}}
-                                                {{ $slider->created_at ? $slider->created_at->format('Y-m-d') : '-' }}
+                                                {{-- {{ $case->created_at ? (app()->getLocale() === 'en' ? $case->created_at->format('d-m-Y') : $case->created_at->format('Y-m-d')) : '-' }} --}}
+                                                {{ $case->created_at ? $case->created_at->format('Y-m-d') : '-' }}
                                             </td>
 
                                             <td class="px-6 py-4 whitespace-nowrap text-center text-xs text-gray-500">
-                                                {{ $slider->updated_at ? $slider->updated_at->diffForHumans() : '-' }}
+                                                {{ $case->updated_at ? $case->updated_at->diffForHumans() : '-' }}
                                             </td>
 
                                             <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
                                                 <div class="flex items-center justify-center gap-x-1.5">
-                                                    <a href="{{ route('dashboard.sliders.edit', $slider) }}"
+                                                    <a href="{{ route('dashboard.cases.edit', $case) }}"
                                                         class="inline-flex items-center px-3 py-1.5 bg-blue-50 text-blue-600 hover:bg-blue-100 rounded-md transition-colors duration-150 text-xs font-semibold">
                                                         {{ __('admin.edit') }}
                                                     </a>
 
-                                                    <form action="{{ route('dashboard.sliders.destroy', $slider) }}"
+                                                    <form action="{{ route('dashboard.cases.destroy', $case) }}"
                                                         method="POST" class="inline delete-form">
                                                         @csrf
                                                         @method('DELETE')
@@ -102,7 +133,7 @@
                                         </tr>
                                     @empty
                                         <tr>
-                                            <td colspan="6"
+                                            <td colspan="15"
                                                 class="px-6 py-12 whitespace-nowrap text-sm font-medium text-center text-gray-400 bg-gray-50/50">
                                                 <div class="flex flex-col items-center justify-center space-y-2">
                                                     <svg class="w-8 h-8 text-gray-300" fill="none"
